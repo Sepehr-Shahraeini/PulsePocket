@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
+             xmlns:local="clr-namespace:PulsePocket.ViewModels"
+             xmlns:model="clr-namespace:PulsePocket.Models"
+             xmlns:dxpdf="clr-namespace:DevExpress.Maui.Pdf;assembly=DevExpress.Maui.Pdf"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             ios:Page.UseSafeArea="true"
+             x:Class="PulsePocket.Views.LibraryPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <StackLayout>
+
+        <dxpdf:PdfViewer x:Name="pdfViewer" DocumentSource="{Binding FileUrl}" IsVisible="{Binding FileVisible}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
+
+        <Grid RowDefinitions="Auto, *" IsVisible="{Binding FileVisible, Converter={StaticResource InvertedBoolConverter}}">
+            <Grid ColumnDefinitions="Auto, *">
+                <Button ImageSource="back_button" BackgroundColor="#f0f3f5" TextColor="Black"  HorizontalOptions="Start" IsVisible="{Binding IsBackVisible}"  Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=BackTapped}" Grid.Column="0" Grid.Row="0" />
+                <Frame BackgroundColor="White" Margin="10" CornerRadius="20" BorderColor="LightGray" HorizontalOptions="FillAndExpand" HeightRequest="50" Grid.Column="1" Grid.Row="0">
+                    <Entry TextChanged="Search" Placeholder="Search" TextColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="50"/>
+                </Frame>
+            </Grid>
+            <dxcv:DXCollectionView x:Name="ItemsListView" Grid.Row="2"
+            ItemsSource="{Binding Items}"
+                SelectionMode="None" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+                <dxcv:DXCollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="5" Padding="15,10,15,10" BackgroundColor="cornsilk" Stroke="#ccc" HeightRequest="60">
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border"
+                  Binding="{Binding IsFile}"
+                  Value="True">
+                                    <Setter Property="BackgroundColor"
+         Value="White" />
+                                </DataTrigger>
+                            </Border.Triggers>
+                            <StackLayout x:DataType="model:Item">
+                                <Label Text="{Binding Text}"
+   LineBreakMode="NoWrap"
+   Style="{StaticResource PrimaryText}"
+       IsVisible="{Binding IsFile}"
+   VerticalOptions="CenterAndExpand"/>
+                                <Grid IsVisible="{Binding IsFile, Converter={StaticResource InvertedBoolConverter}}">
+                                    <Grid.Triggers>
+                                        <DataTrigger TargetType="Grid"
+                                                 Binding="{Binding IsFile}"
+                                                 Value="True">
+                                        </DataTrigger>
+                                    </Grid.Triggers>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="0.15*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Label Text="{Binding Text}"
+                                   LineBreakMode="NoWrap"
+                                   Style="{StaticResource PrimaryText}"
+                                   Grid.Column="0"
+                                   Grid.RowSpan="2"
+                                   VerticalOptions="CenterAndExpand"/>
+                                    <Label Text="Files"
+                                   Grid.Column="1"
+                                   Grid.Row="0"
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center"
+                                   IsVisible="{Binding IsFile, Converter={StaticResource InvertedBoolConverter}}"/>
+                                    <Label Text="{Binding FilesCount}"
+                                   LineBreakMode="NoWrap"
+                                   Style="{StaticResource SecondaryText}"
+                                   Grid.Column="1"
+                                   Grid.Row="1"
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center"
+                                   IsVisible="{Binding IsFile, Converter={StaticResource InvertedBoolConverter}}"/>
+
+                                </Grid>
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                            NumberOfTapsRequired="1"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=ItemTapped}"
+                                            CommandParameter="{Binding .}">
+                                    </TapGestureRecognizer>
+                                </StackLayout.GestureRecognizers>
+
+                            </StackLayout>
+                        </Border>
+                    </DataTemplate>
+                </dxcv:DXCollectionView.ItemTemplate>
+            </dxcv:DXCollectionView>
+            <!--<dx:PdfViewer x:Name="pdfViewer" DocumentSource="test.pdf" PageTap="OnPageTap" />-->
+
+        </Grid>
+    </StackLayout>
+</ContentPage>

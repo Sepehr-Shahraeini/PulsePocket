@@ -1,0 +1,116 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net8.0-android;net8.0-ios</TargetFrameworks>
+    	<OutputType>Exe</OutputType>
+		<UseMaui>true</UseMaui>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<SingleProject>true</SingleProject>
+		<RootNamespace>PulsePocket</RootNamespace>
+
+		<!-- Display name -->
+		<ApplicationTitle>PulsePocket</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.companyname.PulsePocket</ApplicationId>
+		<ApplicationIdGuid>1B4DCD25-5D2B-4407-A472-CE6DCB2779F0</ApplicationIdGuid>
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<UseInterpreter Condition="$(TargetFramework.Contains('-ios')) AND '$(Configuration)' == 'Release'">True</UseInterpreter>
+	</PropertyGroup>
+	<ItemGroup>
+		<!-- App Icon -->
+    <MauiIcon Include="Resources\AppIcon\appicon.png" Color="#fc7147" />
+		<!-- Splash Screen --> 
+		<MauiSplashScreen Include="Resources\Images\logo.png" Color="#fc7147" BaseSize="128,110" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="Resources\Raw\index2.html" />
+	  <None Remove="Resources\Raw\main.js" />
+	  <None Remove="Resources\Raw\WebRoot\test.html" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.1" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+		<PackageReference Include="DevExpress.Maui.Pdf" Version="23.2.4" />
+		<PackageReference Include="EJL.MauiHybridWebView" Version="1.0.0-preview4" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.7" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.7" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<PackageReference Include="DevExpress.Maui.Controls" Version="23.2.4" />
+		<PackageReference Include="DevExpress.Maui.Core" Version="23.2.4" />
+		<PackageReference Include="DevExpress.Maui.Charts" Version="23.2.4" />
+		<PackageReference Include="DevExpress.Maui.CollectionView" Version="23.2.4" />
+		<PackageReference Include="DevExpress.Maui.Editors" Version="23.2.4" />
+		<PackageReference Include="DevExpress.Maui.DataGrid" Version="23.2.4" />
+		<PackageReference Include="DevExpress.Maui.Scheduler" Version="23.2.4" />
+		<PackageReference Include="SkiaSharp" Version="2.88.7" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.8" />
+		<PackageReference Include="Syncfusion.Maui.PdfViewer" Version="24.2.4" />
+		<TrimmableAssembly Include="DevExpress.Data.v23.2" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Compile Update="Views\HomePage.xaml.cs">
+	    <DependentUpon>HomePage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\LibraryPage.xaml.cs">
+	    <DependentUpon>LibraryPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\FlightsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\HomePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\LibraryPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SafetyFormsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <MauiAsset Include="Assets\test.pdf" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Folder Include="Resources\Pdfs\" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <MauiAsset Update="Resources\Raw\index2.html">
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\main.js">
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	</ItemGroup>
+</Project>

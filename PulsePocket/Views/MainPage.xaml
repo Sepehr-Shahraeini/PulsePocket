@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+         xmlns:local="clr-namespace:PulsePocket.Views"
+         xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+         ios:Page.UseSafeArea="true"
+        x:Class= "PulsePocket.Views.MainPage"
+        Shell.FlyoutBehavior="Disabled"
+        FlyoutBackgroundColor="#f0f3f5">
+
+    <!--<Shell.ToolbarItems>
+        <ToolbarItem IconImageSource="Logout" Clicked="LogOutClicked" x:Name="LogOutTool"/>
+    </Shell.ToolbarItems>-->
+
+
+
+    <Shell.FlyoutContent>
+        <Grid HorizontalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Frame Grid.Row="0" BackgroundColor="OrangeRed" HorizontalOptions="FillAndExpand" CornerRadius="10" Margin="8,5,8,0">
+                <Label Text="User Name" Style="{StaticResource lbl_userName}"/>
+            </Frame>
+            <Button Grid.Row="1" Text="LogOut" Clicked="LogOutClicked" x:Name="btn_logOut" Style="{StaticResource btn_logOut}"/>
+        </Grid>
+    </Shell.FlyoutContent>
+
+    <TabBar>
+        <ShellContent ContentTemplate="{DataTemplate local:LoginPage}"
+                   Route= "PulsePocket.Views.LoginPage" />
+    </TabBar>
+
+
+    <TabBar x:Name="tabbar" StyleClass="MainTabBar">
+        <Tab Style="{StaticResource TabBarStyle}" x:Name="tab0" Icon="home" >
+            <ShellContent ContentTemplate="{DataTemplate local:HomePage}" Route="PulsePocket.Views.HomePage"  />
+        </Tab>
+        <Tab Style="{StaticResource TabBarStyle}"  x:Name="tab1" Icon="plane" Appearing="tab1_Appearing">
+            <ShellContent ContentTemplate="{DataTemplate local:FlightsPage}" />
+        </Tab>
+        <Tab Style="{StaticResource TabBarStyle}" x:Name="tab2" Icon="book">
+            <ShellContent ContentTemplate="{DataTemplate local:LibraryPage}" />
+        </Tab>
+        <Tab Style="{StaticResource TabBarStyle}" x:Name="tab3" Icon="award" Appearing="tab3_Appearing">
+            <ShellContent ContentTemplate="{DataTemplate local:FlightsPage}" />
+        </Tab>
+        <Tab Style="{StaticResource TabBarStyle}" x:Name="tab4" Icon="note" Appearing="tab4_Appearing">
+            <ShellContent ContentTemplate="{DataTemplate local:FlightsPage}"/>
+        </Tab>
+
+    </TabBar>
+
+
+</Shell>
